@@ -811,8 +811,8 @@ URI ~s contains illegal character ~s at position ~d."
                "Non-hexidecimal digits after %: %c%c." ch ch2))
             (let ((ci (+ (* 16 chc) chc2)))
               (if* (or (null reserved-chars)
-                       (> ci 127)       ; bug11527
-                       (= 0 (sbit reserved-chars ci)))
+                       (and (<= ci 127) ; bug11527
+                            (= 0 (sbit reserved-chars ci))))
                  then ;; ok as is
                       (setf (char new-string new-i)
                         (code-char ci))
@@ -917,8 +917,8 @@ URI ~s contains illegal character ~s at position ~d."
        (shrink-vector new-string (incf new-i)))
     (setq ci (char-int (setq c (char string i))))
     (if* (or (null reserved-chars)
-             (> ci 127)
-             (= 0 (sbit reserved-chars ci)))
+             (and (<= ci 127)
+                  (= 0 (sbit reserved-chars ci))))
        then ;; ok as is
             (incf new-i)
             (setf (char new-string new-i) c)
