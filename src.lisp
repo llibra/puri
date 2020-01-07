@@ -59,6 +59,8 @@
    #:do-all-uris
 
    #:uri-parse-error ;; Added by KMR
+
+   #:use-uri-syntax
    ))
 
 (in-package #:puri)
@@ -1319,8 +1321,9 @@ Executes the forms once for each uri with var bound to the current uri"
           stream
           "#u takes a string or list argument: ~s" arg)))))
 
-
-(set-dispatch-macro-character #\# #\u #'puri::sharp-u)
+;; Conflicts with Jonathan on Allegro CL due to the existing sharp-u
+(defun use-uri-syntax ()
+  (set-dispatch-macro-character #\# #\u #'puri::sharp-u))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
