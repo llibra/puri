@@ -454,8 +454,7 @@
 
     (when host (setq host (decode-escaped-encoding host escape)))
     (when port
-      (setq port (read-from-string port))
-      (when (not (numberp port)) (error "port is not a number: ~s." port))
+      (setq port (parse-integer port :junk-allowed nil))
       (when (not (plusp port))
         (error "port is not a positive integer: ~d." port))
       (when (eql port (case scheme
